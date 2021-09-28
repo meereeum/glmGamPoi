@@ -33,6 +33,11 @@ compute_gp_deviance_residuals_matrix <- function(Y_SEXP, Mu, thetas) {
     .Call(`_glmGamPoi_compute_gp_deviance_residuals_matrix_mask`, Y_SEXP, Mu, thetas)
 }
 
+#' @export
+fisher_scoring_qr_step_ <- function(model_matrix, counts, mu, theta_times_mu) {
+    .Call(`_glmGamPoi_fisher_scoring_qr_step_`, model_matrix, counts, mu, theta_times_mu)
+}
+
 make_table_if_small <- function(x, stop_if_larger) {
     .Call(`_glmGamPoi_make_table_if_small`, x, stop_if_larger)
 }

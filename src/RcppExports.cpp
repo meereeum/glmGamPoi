@@ -6,6 +6,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // lte_n_equal_rows
 bool lte_n_equal_rows(const NumericMatrix& matrix, int n, double tolerance);
 RcppExport SEXP _glmGamPoi_lte_n_equal_rows(SEXP matrixSEXP, SEXP nSEXP, SEXP toleranceSEXP) {
@@ -120,6 +125,21 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const arma::Mat<double>& >::type Mu(MuSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type thetas(thetasSEXP);
     rcpp_result_gen = Rcpp::wrap(compute_gp_deviance_residuals_matrix_mask(Y_SEXP, Mu, thetas));
+    return rcpp_result_gen;
+END_RCPP
+}
+// #' @export
+// fisher_scoring_qr_step_
+template<class NumericType> arma::vec fisher_scoring_qr_step_(const arma::mat& model_matrix, const arma::Col<NumericType>& counts, const arma::colvec& mu, const arma::colvec& theta_times_mu);
+RcppExport SEXP _glmGamPoi_fisher_scoring_qr_step_(SEXP model_matrixSEXP, SEXP countsSEXP, SEXP muSEXP, SEXP theta_times_muSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const arma::mat& >::type model_matrix(model_matrixSEXP);
+    Rcpp::traits::input_parameter< const arma::Col<NumericType>& >::type counts(countsSEXP);
+    Rcpp::traits::input_parameter< const arma::colvec& >::type mu(muSEXP);
+    Rcpp::traits::input_parameter< const arma::colvec& >::type theta_times_mu(theta_times_muSEXP);
+    rcpp_result_gen = Rcpp::wrap(fisher_scoring_qr_step_(model_matrix, counts, mu, theta_times_mu));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -275,6 +295,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_glmGamPoi_compute_gp_deviance_mask", (DL_FUNC) &_glmGamPoi_compute_gp_deviance_mask, 3},
     {"_glmGamPoi_compute_gp_deviance_sum_mask", (DL_FUNC) &_glmGamPoi_compute_gp_deviance_sum_mask, 3},
     {"_glmGamPoi_compute_gp_deviance_residuals_matrix_mask", (DL_FUNC) &_glmGamPoi_compute_gp_deviance_residuals_matrix_mask, 3},
+    {"_glmGamPoi_fisher_scoring_qr_step_", (DL_FUNC) &_glmGamPoi_fisher_scoring_qr_step_, 4},
     {"_glmGamPoi_make_table_if_small", (DL_FUNC) &_glmGamPoi_make_table_if_small, 2},
     {"_glmGamPoi_conventional_loglikelihood_fast", (DL_FUNC) &_glmGamPoi_conventional_loglikelihood_fast, 7},
     {"_glmGamPoi_conventional_score_function_fast", (DL_FUNC) &_glmGamPoi_conventional_score_function_fast, 7},
