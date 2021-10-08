@@ -436,10 +436,11 @@ List fitBeta_one_group(RObject Y, RObject offset_matrix,
 }
 
 
-
-
-
-
-
-
-
+// adding exportable QR step
+// [[Rcpp::export]]
+List fisher_scoring_qr_step_export(const arma::mat& model_matrix, IntegerVector counts, const arma::Mat<double>& mu, NumericVector theta_times_mu){
+    return fisher_scoring_qr_step<beachmat::numeric_matrix>(model_matrix, counts, mu, theta_times_mu);
+}
+// types in .h template
+// arma::vec fisher_scoring_qr_step(const arma::mat& model_matrix, const arma::Col<NumericType>& counts,
+//                                  const arma::colvec& mu, const arma::colvec& theta_times_mu){

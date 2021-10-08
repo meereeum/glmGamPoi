@@ -21,6 +21,10 @@ fitBeta_one_group <- function(Y, offset_matrix, thetas, beta_start_values, toler
     .Call(`_glmGamPoi_fitBeta_one_group`, Y, offset_matrix, thetas, beta_start_values, tolerance, maxIter)
 }
 
+fisher_scoring_qr_step_export <- function(model_matrix, counts, mu, theta_times_mu) {
+    .Call(`_glmGamPoi_fisher_scoring_qr_step_export`, model_matrix, counts, mu, theta_times_mu)
+}
+
 compute_gp_deviance <- function(y, mu, theta) {
     .Call(`_glmGamPoi_compute_gp_deviance_mask`, y, mu, theta)
 }
@@ -31,11 +35,6 @@ compute_gp_deviance_sum <- function(y, mu, theta) {
 
 compute_gp_deviance_residuals_matrix <- function(Y_SEXP, Mu, thetas) {
     .Call(`_glmGamPoi_compute_gp_deviance_residuals_matrix_mask`, Y_SEXP, Mu, thetas)
-}
-
-#' @export
-fisher_scoring_qr_step_ <- function(model_matrix, counts, mu, theta_times_mu) {
-    .Call(`_glmGamPoi_fisher_scoring_qr_step_`, model_matrix, counts, mu, theta_times_mu)
 }
 
 make_table_if_small <- function(x, stop_if_larger) {
