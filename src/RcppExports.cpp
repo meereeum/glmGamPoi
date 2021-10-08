@@ -90,16 +90,17 @@ BEGIN_RCPP
 END_RCPP
 }
 // fisher_scoring_qr_step_export
-List fisher_scoring_qr_step_export(const arma::mat& model_matrix, IntegerVector counts, const arma::Mat<double>& mu, NumericVector theta_times_mu);
-RcppExport SEXP _glmGamPoi_fisher_scoring_qr_step_export(SEXP model_matrixSEXP, SEXP countsSEXP, SEXP muSEXP, SEXP theta_times_muSEXP) {
+List fisher_scoring_qr_step_export(RObject Y, int gene_idx, const arma::mat& model_matrix, const arma::Mat<double>& mu, NumericVector theta_times_mu);
+RcppExport SEXP _glmGamPoi_fisher_scoring_qr_step_export(SEXP YSEXP, SEXP gene_idxSEXP, SEXP model_matrixSEXP, SEXP muSEXP, SEXP theta_times_muSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< RObject >::type Y(YSEXP);
+    Rcpp::traits::input_parameter< int >::type gene_idx(gene_idxSEXP);
     Rcpp::traits::input_parameter< const arma::mat& >::type model_matrix(model_matrixSEXP);
-    Rcpp::traits::input_parameter< IntegerVector >::type counts(countsSEXP);
     Rcpp::traits::input_parameter< const arma::Mat<double>& >::type mu(muSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type theta_times_mu(theta_times_muSEXP);
-    rcpp_result_gen = Rcpp::wrap(fisher_scoring_qr_step_export(model_matrix, counts, mu, theta_times_mu));
+    rcpp_result_gen = Rcpp::wrap(fisher_scoring_qr_step_export(Y, gene_idx, model_matrix, mu, theta_times_mu));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -291,7 +292,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_glmGamPoi_fitBeta_fisher_scoring", (DL_FUNC) &_glmGamPoi_fitBeta_fisher_scoring, 9},
     {"_glmGamPoi_fitBeta_diagonal_fisher_scoring", (DL_FUNC) &_glmGamPoi_fitBeta_diagonal_fisher_scoring, 8},
     {"_glmGamPoi_fitBeta_one_group", (DL_FUNC) &_glmGamPoi_fitBeta_one_group, 6},
-    {"_glmGamPoi_fisher_scoring_qr_step_export", (DL_FUNC) &_glmGamPoi_fisher_scoring_qr_step_export, 4},
+    {"_glmGamPoi_fisher_scoring_qr_step_export", (DL_FUNC) &_glmGamPoi_fisher_scoring_qr_step_export, 5},
     {"_glmGamPoi_compute_gp_deviance_mask", (DL_FUNC) &_glmGamPoi_compute_gp_deviance_mask, 3},
     {"_glmGamPoi_compute_gp_deviance_sum_mask", (DL_FUNC) &_glmGamPoi_compute_gp_deviance_sum_mask, 3},
     {"_glmGamPoi_compute_gp_deviance_residuals_matrix_mask", (DL_FUNC) &_glmGamPoi_compute_gp_deviance_residuals_matrix_mask, 3},
