@@ -440,6 +440,8 @@ List fitBeta_one_group(RObject Y, RObject offset_matrix,
 // [[Rcpp::export]]
  List fisher_scoring_qr_step_export(RObject Y, int gene_idx, const arma::mat& model_matrix, const arma::Mat<double>& mu, NumericVector theta_times_mu){
     auto Y_bm = beachmat::create_matrix<BMNumericType>(Y);
+    // int n_samples = model_matrix.n_rows;
+    int n_samples = Y_bm->get_ncol();
     // Fill count and offset vector from beachmat matrix
     arma::Col<NumericType> counts(n_samples);
     Y_bm->get_row(gene_idx, counts.begin());
