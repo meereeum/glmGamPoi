@@ -21,8 +21,8 @@ fitBeta_one_group <- function(Y, offset_matrix, thetas, beta_start_values, toler
     .Call(`_glmGamPoi_fitBeta_one_group`, Y, offset_matrix, thetas, beta_start_values, tolerance, maxIter)
 }
 
-fisher_scoring_qr_step_export <- function(Y, gene_idx, model_matrix, mu, theta_times_mu) {
-    .Call(`_glmGamPoi_fisher_scoring_qr_step_export`, Y, gene_idx, model_matrix, mu, theta_times_mu)
+fitBeta_fisher_scoring_single_gene_single_step <- function(gene_idx, dev_old, Y, model_matrix, exp_offset_matrix, thetas, beta_matSEXP, ridge_penalty_nl, tolerance, max_rel_mu_change, use_diagonal_approx) {
+    .Call(`_glmGamPoi_fitBeta_fisher_scoring_single_gene_single_step`, gene_idx, dev_old, Y, model_matrix, exp_offset_matrix, thetas, beta_matSEXP, ridge_penalty_nl, tolerance, max_rel_mu_change, use_diagonal_approx)
 }
 
 compute_gp_deviance <- function(y, mu, theta) {
