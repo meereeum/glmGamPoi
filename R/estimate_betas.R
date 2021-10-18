@@ -59,18 +59,26 @@ estimate_betas_fisher_scoring <- function(Y, model_matrix, offset_matrix,
   }
 
   # save all args that go into fitBeta_fisher_scoring
-  print('saving...')
-  save(Y, file='Y.RData')
-  save(model_matrix, file='model_matrix.RData')
-  # save(exp(offset_matrix), file='exp_offset_matrix.RData') # lol this doesn't work in R ??!
+  # (as named by function arguments)
+  if(ncol(model_matrix) == 2){ # N.B. this is particular to the formula-of-interest at the moment..
+      outfile = "args_full.RData"
+  } else {
+      outfile = "args_reduced.RData"
+  }
   exp_offset_matrix = exp(offset_matrix)
-  save(exp_offset_matrix, file='exp_offset_matrix.RData')
-  save(dispersions, file='thetas.RData')
-  save(beta_mat_init, file='beta_mat.RData')
-  save(ridge_penalty, file='ridge_penalty_nl.RData')
+  beta_mat = beta_mat_init
+  thetas = dispersions
+  ridge_penalty_nl = ridge_penalty
+  tolerance = 1e-8
+  max_rel_mu_change = 1e5
+  save(Y, model_matrix, exp_offset_matrix, thetas, beta_mat,
+       ridge_penalty_nl, tolerance, max_rel_mu_change, max_iter,
+       file=outfile)
+  print(paste('--> ', outfile))
+
   betaRes <- fitBeta_fisher_scoring(Y, model_matrix, exp(offset_matrix), dispersions, beta_mat_init,
                                     ridge_penalty_nl = ridge_penalty, tolerance = 1e-8,
-                                    max_rel_mu_change = 1e5, max_iter =  max_iter)
+                                    max_rel_mu_change = 1e5, max_iter = max_iter)
   not_converged <- betaRes$iter == max_iter
   if(try_recovering_convergence_problems & any(not_converged)){
     # Try again with optim
