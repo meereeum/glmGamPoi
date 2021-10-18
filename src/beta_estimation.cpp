@@ -294,8 +294,8 @@ List fitBeta_fisher_scoring_impl(RObject Y, const arma::mat& model_matrix, RObje
 
 // [[Rcpp::export]]
 List fitBeta_fisher_scoring(RObject Y, const arma::mat& model_matrix, RObject exp_offset_matrix,
-                                  NumericVector thetas, SEXP beta_matSEXP, Nullable<NumericMatrix> ridge_penalty_nl,
-                                  double tolerance, double max_rel_mu_change, int max_iter) {
+                            NumericVector thetas, SEXP beta_matSEXP, Nullable<NumericMatrix> ridge_penalty_nl,
+                            double tolerance, double max_rel_mu_change, int max_iter) {
   auto mattype=beachmat::find_sexp_type(Y);
   if (mattype==INTSXP) {
     return fitBeta_fisher_scoring_impl<int, beachmat::integer_matrix>(Y, model_matrix, exp_offset_matrix,
@@ -547,42 +547,16 @@ List fitBeta_fisher_scoring_impl_single_gene_single_step(
   // }
 
   return List::create(
-    // Named("beta_mat", beta_mat), // this is across >1 gene
+    // Named("beta_mat", beta_mat),  // this is across >1 gene
+    // Named("iter", iterations),
+    // Named("deviance", deviance)); // similarly
     Named("beta_hat", beta_hat),
     Named("deviance", dev),
     Named("convergence", conv_test),
     Named("step", step_orig),
     Named("step_rescaled", step));
-    // Named("iter", iterations),
-    // Named("deviance", deviance));
 }
 
-
-// adding exportable QR step
-// #47[[Rcpp::export]]
-// List fisher_scoring_qr_step_export(
-//     RObject Y, const arma::mat& model_matrix, RObject exp_offset_matrix,
-//     NumericVector thetas, SEXP beta_matSEXP, Nullable<NumericMatrix> ridge_penalty_nl,
-//     double tolerance, double max_rel_mu_change, int max_iter) {
-//   auto mattype=beachmat::find_sexp_type(Y);
-//   if (mattype==INTSXP) {
-//       throw std::runtime_error("unacceptable matrix type (INTSXP not implemented)");
-    // return fitBeta_fisher_scoring_impl<int, beachmat::integer_matrix>(Y, model_matrix, exp_offset_matrix,
-    //                                                                   thetas,  beta_matSEXP,
-    //                                                                   /*ridge_penalty=*/ ridge_penalty_nl,
-    //                                                                   tolerance, max_rel_mu_change, max_iter,
-    //                                                                   /*use_diagonal_approx=*/ false);
-//   } else if (mattype==REALSXP) {
-//     return fitBeta_fisher_scoring_impl<double, beachmat::numeric_matrix>(
-//         Y, model_matrix, exp_offset_matrix,
-//          thetas,  beta_matSEXP,
-//          /*ridge_penalty=*/ ridge_penalty_nl,
-//          tolerance, max_rel_mu_change, max_iter,
-//           /*use_diagonal_approx=*/ false);
-//   } else {
-//     throw std::runtime_error("unacceptable matrix type");
-//   }
-// }
 
 // [[Rcpp::export]]
 List fitBeta_fisher_scoring_single_gene_single_step(
@@ -595,32 +569,23 @@ List fitBeta_fisher_scoring_single_gene_single_step(
 
     auto mattype=beachmat::find_sexp_type(Y);
 
-    if (mattype==REALSXP) {
+    if (mattype==INTSXP) {
+        return fitBeta_fisher_scoring_impl_single_gene_single_step<int, beachmat::integer_matrix>(
+            gene_idx, dev_old,
+            Y, model_matrix, exp_offset_matrix,
+             thetas,  beta_matSEXP,
+             /*ridge_penalty=*/ ridge_penalty_nl,
+             tolerance, max_rel_mu_change,
+              /*use_diagonal_approx=*/ false);
+    } else if (mattype==REALSXP) {
         return fitBeta_fisher_scoring_impl_single_gene_single_step<double, beachmat::numeric_matrix>(
             gene_idx, dev_old,
             Y, model_matrix, exp_offset_matrix,
              thetas,  beta_matSEXP,
              /*ridge_penalty=*/ ridge_penalty_nl,
-             tolerance, max_rel_mu_change, // max_iter,
+             tolerance, max_rel_mu_change,
               /*use_diagonal_approx=*/ false);
-      } else {
+    } else {
         throw std::runtime_error("unacceptable matrix type");
-      }
+    }
 }
-
-// List fisher_scoring_qr_step_export(RObject Y, int gene_idx, const arma::mat& model_matrix, const arma::Mat<double>& mu, NumericVector theta_times_mu){
-//    auto Y_bm = beachmat::create_matrix<BMNumericType>(Y);
-//    // int n_samples = model_matrix.n_rows;
-//    int n_samples = Y_bm->get_ncol();
-//    // Fill count and offset vector from beachmat matrix
-//    arma::Col<NumericType> counts(n_samples);
-//    Y_bm->get_row(gene_idx, counts.begin());
-//    return fisher_scoring_qr_step<beachmat::numeric_matrix>(model_matrix, counts, mu, theta_times_mu);
-// }
-// 
-// // List fisher_scoring_qr_step_export(const arma::mat& model_matrix, NumericVector counts, const arma::Mat<double>& mu, NumericVector theta_times_mu){
-// //     return fisher_scoring_qr_step<beachmat::numeric_matrix>(model_matrix, counts, mu, theta_times_mu);
-// 
-// // types in .h template
-// // arma::vec fisher_scoring_qr_step(const arma::mat& model_matrix, const arma::Col<NumericType>& counts,
-// //                                  const arma::colvec& mu, const arma::colvec& theta_times_mu){
