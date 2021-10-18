@@ -58,6 +58,16 @@ estimate_betas_fisher_scoring <- function(Y, model_matrix, offset_matrix,
     attr(ridge_penalty, "target") <- ridge_target
   }
 
+  # save all args that go into fitBeta_fisher_scoring
+  print('saving...')
+  save(Y, file='Y.RData')
+  save(model_matrix, file='model_matrix.RData')
+  # save(exp(offset_matrix), file='exp_offset_matrix.RData') # lol this doesn't work in R ??!
+  exp_offset_matrix = exp(offset_matrix)
+  save(exp_offset_matrix, file='exp_offset_matrix.RData')
+  save(dispersions, file='thetas.RData')
+  save(beta_mat_init, file='beta_mat.RData')
+  save(ridge_penalty, file='ridge_penalty_nl.RData')
   betaRes <- fitBeta_fisher_scoring(Y, model_matrix, exp(offset_matrix), dispersions, beta_mat_init,
                                     ridge_penalty_nl = ridge_penalty, tolerance = 1e-8,
                                     max_rel_mu_change = 1e5, max_iter =  max_iter)
