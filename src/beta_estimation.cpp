@@ -260,6 +260,16 @@ List fitBeta_fisher_scoring_impl(RObject Y, const arma::mat& model_matrix, RObje
           step = fisher_scoring_qr_step(model_matrix, counts, mu_hat, thetas(gene_idx) * mu_hat);
         }
       }
+
+      // print `step` to check behavior of exported function
+      // if ( (t == 0) && (gene_idx == 0)) { // @ step 0 && gene 0
+      //     printf("\n step: ");
+      //     for (int n=0; n < step.n_elem; n++){ // loop over array to print lololol
+      //       printf("%f ",step[n]); // and no single quotes jeezow
+      //     }
+      //     printf("\n");
+      // }
+
       // Find step size that actually decreases the deviance
       double dev = 0;
       if(apply_ridge_penalty){
