@@ -452,7 +452,7 @@ List fitBeta_one_group(RObject Y, RObject offset_matrix,
 // C&P from above (`fitBeta_fisher_scoring_impl`), but include more info in output
 template<class NumericType, class BMNumericType>
 List fitBeta_fisher_scoring_impl_single_gene_single_step(
-    int gene_idx, double dev_old,
+    int gene_idx,
     RObject Y, const arma::mat& model_matrix, RObject exp_offset_matrix,
     NumericVector thetas, SEXP beta_matSEXP, Nullable<NumericMatrix> ridge_penalty_nl,
     double tolerance, double max_rel_mu_change, // int max_iter,
@@ -571,7 +571,7 @@ List fitBeta_fisher_scoring_impl_single_gene_single_step(
 
 // [[Rcpp::export]]
 List fitBeta_fisher_scoring_single_gene_single_step(
-    int gene_idx, double dev_old,
+    int gene_idx,
     RObject Y, const arma::mat& model_matrix, RObject exp_offset_matrix,
     NumericVector thetas, SEXP beta_matSEXP, Nullable<NumericMatrix> ridge_penalty_nl,
     double tolerance, double max_rel_mu_change, // int max_iter,
@@ -582,7 +582,7 @@ List fitBeta_fisher_scoring_single_gene_single_step(
 
     if (mattype==INTSXP) {
         return fitBeta_fisher_scoring_impl_single_gene_single_step<int, beachmat::integer_matrix>(
-            gene_idx, dev_old,
+            gene_idx,
             Y, model_matrix, exp_offset_matrix,
              thetas,  beta_matSEXP,
              /*ridge_penalty=*/ ridge_penalty_nl,
@@ -590,7 +590,7 @@ List fitBeta_fisher_scoring_single_gene_single_step(
               /*use_diagonal_approx=*/ false);
     } else if (mattype==REALSXP) {
         return fitBeta_fisher_scoring_impl_single_gene_single_step<double, beachmat::numeric_matrix>(
-            gene_idx, dev_old,
+            gene_idx,
             Y, model_matrix, exp_offset_matrix,
              thetas,  beta_matSEXP,
              /*ridge_penalty=*/ ridge_penalty_nl,
