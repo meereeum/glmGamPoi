@@ -90,13 +90,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // fitBeta_fisher_scoring_single_gene_single_step
-List fitBeta_fisher_scoring_single_gene_single_step(int gene_idx, double dev_old, RObject Y, const arma::mat& model_matrix, RObject exp_offset_matrix, NumericVector thetas, SEXP beta_matSEXP, Nullable<NumericMatrix> ridge_penalty_nl, double tolerance, double max_rel_mu_change, bool use_diagonal_approx);
-RcppExport SEXP _glmGamPoi_fitBeta_fisher_scoring_single_gene_single_step(SEXP gene_idxSEXP, SEXP dev_oldSEXP, SEXP YSEXP, SEXP model_matrixSEXP, SEXP exp_offset_matrixSEXP, SEXP thetasSEXP, SEXP beta_matSEXPSEXP, SEXP ridge_penalty_nlSEXP, SEXP toleranceSEXP, SEXP max_rel_mu_changeSEXP, SEXP use_diagonal_approxSEXP) {
+List fitBeta_fisher_scoring_single_gene_single_step(int gene_idx, RObject Y, const arma::mat& model_matrix, RObject exp_offset_matrix, NumericVector thetas, SEXP beta_matSEXP, Nullable<NumericMatrix> ridge_penalty_nl, double tolerance, double max_rel_mu_change, bool use_diagonal_approx);
+RcppExport SEXP _glmGamPoi_fitBeta_fisher_scoring_single_gene_single_step(SEXP gene_idxSEXP, SEXP YSEXP, SEXP model_matrixSEXP, SEXP exp_offset_matrixSEXP, SEXP thetasSEXP, SEXP beta_matSEXPSEXP, SEXP ridge_penalty_nlSEXP, SEXP toleranceSEXP, SEXP max_rel_mu_changeSEXP, SEXP use_diagonal_approxSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< int >::type gene_idx(gene_idxSEXP);
-    Rcpp::traits::input_parameter< double >::type dev_old(dev_oldSEXP);
     Rcpp::traits::input_parameter< RObject >::type Y(YSEXP);
     Rcpp::traits::input_parameter< const arma::mat& >::type model_matrix(model_matrixSEXP);
     Rcpp::traits::input_parameter< RObject >::type exp_offset_matrix(exp_offset_matrixSEXP);
@@ -106,7 +105,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type tolerance(toleranceSEXP);
     Rcpp::traits::input_parameter< double >::type max_rel_mu_change(max_rel_mu_changeSEXP);
     Rcpp::traits::input_parameter< bool >::type use_diagonal_approx(use_diagonal_approxSEXP);
-    rcpp_result_gen = Rcpp::wrap(fitBeta_fisher_scoring_single_gene_single_step(gene_idx, dev_old, Y, model_matrix, exp_offset_matrix, thetas, beta_matSEXP, ridge_penalty_nl, tolerance, max_rel_mu_change, use_diagonal_approx));
+    rcpp_result_gen = Rcpp::wrap(fitBeta_fisher_scoring_single_gene_single_step(gene_idx, Y, model_matrix, exp_offset_matrix, thetas, beta_matSEXP, ridge_penalty_nl, tolerance, max_rel_mu_change, use_diagonal_approx));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -298,7 +297,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_glmGamPoi_fitBeta_fisher_scoring", (DL_FUNC) &_glmGamPoi_fitBeta_fisher_scoring, 9},
     {"_glmGamPoi_fitBeta_diagonal_fisher_scoring", (DL_FUNC) &_glmGamPoi_fitBeta_diagonal_fisher_scoring, 8},
     {"_glmGamPoi_fitBeta_one_group", (DL_FUNC) &_glmGamPoi_fitBeta_one_group, 6},
-    {"_glmGamPoi_fitBeta_fisher_scoring_single_gene_single_step", (DL_FUNC) &_glmGamPoi_fitBeta_fisher_scoring_single_gene_single_step, 11},
+    {"_glmGamPoi_fitBeta_fisher_scoring_single_gene_single_step", (DL_FUNC) &_glmGamPoi_fitBeta_fisher_scoring_single_gene_single_step, 10},
     {"_glmGamPoi_compute_gp_deviance_mask", (DL_FUNC) &_glmGamPoi_compute_gp_deviance_mask, 3},
     {"_glmGamPoi_compute_gp_deviance_sum_mask", (DL_FUNC) &_glmGamPoi_compute_gp_deviance_sum_mask, 3},
     {"_glmGamPoi_compute_gp_deviance_residuals_matrix_mask", (DL_FUNC) &_glmGamPoi_compute_gp_deviance_residuals_matrix_mask, 3},
