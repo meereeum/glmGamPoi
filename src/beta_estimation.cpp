@@ -462,7 +462,7 @@ List fitBeta_fisher_scoring_impl_single_gene_single_step(
   auto exp_offsets_bm = beachmat::create_numeric_matrix(exp_offset_matrix);
   int n_samples = Y_bm->get_ncol();
   // int n_genes = Y_bm->get_nrow();
-  int n_genes = 1;
+  // int n_genes = 1;
 
   // the ridge penalty
   bool apply_ridge_penalty = ridge_penalty_nl.isNotNull();
@@ -488,7 +488,7 @@ List fitBeta_fisher_scoring_impl_single_gene_single_step(
 
   // deviance, convergence and tolerance
   // NumericVector iterations(n_genes);
-  NumericVector deviance(n_genes);
+  // NumericVector deviance(n_genes);
   // for (int gene_idx = 0; gene_idx < n_genes; gene_idx++) {
     // if (gene_idx % 100 == 0) checkUserInterrupt();
     // Fill count and offset vector from beachmat matrix
@@ -502,7 +502,7 @@ List fitBeta_fisher_scoring_impl_single_gene_single_step(
     if(beta_hat.has_nan() || Rcpp::traits::is_na<REALSXP>(thetas(gene_idx))){
       beta_hat.fill(NA_REAL);
       // iterations(gene_idx) = 0;
-      deviance(gene_idx) = NA_REAL;
+      // deviance(gene_idx) = NA_REAL;
       // continue;
       throw std::runtime_error("nan in betahat");
     }
@@ -553,7 +553,7 @@ List fitBeta_fisher_scoring_impl_single_gene_single_step(
       }
     // }
     // beta_mat.row(gene_idx) = beta_hat.t();
-    deviance(gene_idx) = dev_old;
+    // deviance(gene_idx) = dev_old;
   // }
 
   return List::create(
@@ -561,6 +561,7 @@ List fitBeta_fisher_scoring_impl_single_gene_single_step(
     // Named("iter", iterations),
     // Named("deviance", deviance)); // similarly
     Named("beta_hat", beta_hat),
+    Named("deviance_before", dev_old),
     Named("deviance", dev),
     Named("convergence", conv_test),
     Named("step", step_orig),
