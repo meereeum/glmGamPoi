@@ -60,7 +60,7 @@ estimate_betas_fisher_scoring <- function(Y, model_matrix, offset_matrix,
 
   # save all args that go into fitBeta_fisher_scoring
   # (as named by function arguments)
-  if(ncol(model_matrix) == 2){ # N.B. this is particular to the formula-of-interest at the moment..
+  if(ncol(model_matrix) > 2){ # N.B. this is particular to the formula-of-interest at the moment..
       outfile = "args_full.RData"
   } else {
       outfile = "args_reduced.RData"
