@@ -507,7 +507,7 @@ List fitBeta_fisher_scoring_impl_single_gene_single_step(
       throw std::runtime_error("nan in betahat");
     }
     // Init deviance
-    // double dev_old = 0;
+    double dev_old = 0;
     if(apply_ridge_penalty){
       // For diagonal ridge_penalty: pen = Sum (lambda_i b_i)^2
       double pen_sum = n_samples * arma::as_scalar((beta_hat - ridge_target).t() * ridge_penalty_sq * (beta_hat - ridge_target));
